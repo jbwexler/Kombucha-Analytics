@@ -4,6 +4,15 @@ class Scoby(models.Model):
     name = models.CharField(max_length=200, null=True, blank=True)
     parent = models.ManyToManyField('self', null=True, blank=True)
     dateCreated = models.DateField(null=True, blank=True)
+    
+    def save(self, *args, **kwargs):
+        if self.brew:
+            BrewObj = self.brew.all()[0]
+            self.startDate = BrewObj.endDate
+        if self.endDate and self.startDate:
+            self.brewTime = (self.endDate - self.startDate).days
+        
+        super(Brew, self).save(*args, **kwargs)
 #     def __str__(self):
 #         return self.name
         
@@ -85,8 +94,23 @@ class Bottle(models.Model):
     brew = models.ManyToManyField(Brew, related_name='bottles', null=True, blank=True)
     startDate = models.DateField(null=True, blank=True)
     endDate = models.DateField(null=True, blank=True)
+    bottleTime = models.IntegerField(null=True, blank=True)
     volume = models.FloatField(null=True, blank=True)
     type = models.CharField(max_length=200,choices=type_choices, null=True, blank=True)
+    joeRating = models.IntegerField(null=True, blank=True)
+    tyRating = models.IntegerField(null=True, blank=True)
+    avgRating = models.IntegerField(null=True, blank=True)
+    
+    def save(self, *args, **kwargs):
+        if self.brew:
+            BrewObj = self.brew.all()[0]
+            self.startDate = BrewObj.endDate
+        if self.endDate and self.startDate:
+            self.brewTime = (self.endDate - self.startDate).days
+        if self.joeRating and self.tyRating:
+            self.avgRating = (self.joeRating + self.tyRating)/2
+        
+        super(Brew, self).save(*args, **kwargs)
 
 #     def __str__(self):
 #         return self.name

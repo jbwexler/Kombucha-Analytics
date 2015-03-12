@@ -1,58 +1,93 @@
 from django.db import models
-
-class Enum(models.Model):
-    name = models.CharField(max_length=200)
-
-    def __str__(self):
-        return self.name
-        
         
 class Scoby(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, null=True, blank=True)
     parent = models.ManyToManyField('self', null=True, blank=True)
-    def __str__(self):
-        return self.name
+    dateCreated = models.DateField(null=True, blank=True)
+#     def __str__(self):
+#         return self.name
         
 class Tea(models.Model):
-    name = models.CharField(max_length=200)
-    type = models.ManyToManyField(Enum, related_name='teas', null=True, blank=True)
-    def __str__(self):
-        return self.name
+    type_choices = (
+    ('green', 'green'),
+    ('white', 'white'),
+    ('oolong', 'oolong'),
+    ('shou', 'shou'),
+    ('sheng', 'sheng')
+    )
+    
+    name = models.CharField(max_length=200, null=True, blank=True)
+    type = models.CharField(max_length=200,choices=type_choices, null=True, blank=True)
+    
+    
+#     def __str__(self):
+#         return self.name
         
 
 class Container(models.Model):
-    name = models.CharField(max_length=200)
+    shape_choices = (
+    ('tall', 'tall'),
+    ('wide', 'wide')
+    )
+    
+    name = models.CharField(max_length=200, null=True, blank=True)
     volume = models.FloatField(null=True, blank=True)
-    shape = models.ManyToManyField(Enum, related_name='containers', null=True, blank=True)
-    def __str__(self):
-        return self.name
+    shape = models.CharField(max_length=200,choices=shape_choices, null=True, blank=True)
+#     def __str__(self):
+#         return self.name
         
 class Brew(models.Model):
-    startDate = models.DateField()
+    water_choices = (
+    ('filtered', 'filtered'),
+    ('unfiltered', 'unfiltered')
+    )
+    
+    sugar_choices = (
+    ('white', 'white'),
+    ('brown', 'brown'),
+    ('honey', 'honey'),
+    ('local honey', 'local honey')
+    )
+    
+    location_choices = (
+    ('Tyler', 'Tyler'),
+    ('Joe', 'Joe')
+    )
+    
+    startDate = models.DateField(null=True, blank=True)
     endDate = models.DateField(null=True, blank=True)
+    brewTime = models.IntegerField(null=True, blank=True)
     container = models.ManyToManyField(Container, related_name='brews', null=True, blank=True)
     teaType = models.ManyToManyField(Tea, related_name='brews', null=True, blank=True)
     teaStrength = models.IntegerField(null=True, blank=True)
-    sugarType = models.ManyToManyField(Enum, related_name='brews_sugar', null=True, blank=True)
-    sugarConc = models.FloatField(null=True, blank=True)
-    waterType = models.ManyToManyField(Enum, related_name='brews_water', null=True, blank=True)
+    waterType = models.CharField(max_length=200,choices=water_choices, null=True, blank=True)
     waterVol = models.FloatField(null=True, blank=True)
+    sugarType = models.CharField(max_length=200,choices=sugar_choices, null=True, blank=True)
+    sugarConc = models.FloatField(null=True, blank=True)
     scoby = models.ManyToManyField(Scoby, related_name='brews', null=True, blank=True)
-    def __str__(self):              
-        return self.startDate
+    location = models.CharField(max_length=200,choices=location_choices, null=True, blank=True)
+
+#     def __date__(self):              
+#         return self.startDate
         
-    def brewTime(self):
-        return (self.endDate - self.starDate).days()
+    def save(self, *args, **kwargs):
+        if self.endDate and self.startDate:
+            self.brewTime = (self.endDate - self.startDate).days
+        super(Brew, self).save(*args, **kwargs)
         
 class Bottle(models.Model):
-    name = models.CharField(max_length=200)
+    type_choices = (
+    ('beer', 'beer'),
+    ("gt's", "gt's"),
+    )
+    
+    name = models.CharField(max_length=200, null=True, blank=True)
     brew = models.ManyToManyField(Brew, related_name='bottles', null=True, blank=True)
     startDate = models.DateField(null=True, blank=True)
     endDate = models.DateField(null=True, blank=True)
-    shape = models.ManyToManyField(Enum, related_name='bottles_shape', null=True, blank=True)
     volume = models.FloatField(null=True, blank=True)
-    bottleType = models.ManyToManyField(Enum, related_name='bottles_type', null=True, blank=True)
+    type = models.CharField(max_length=200,choices=type_choices, null=True, blank=True)
 
-    def __str__(self):
-        return self.name
+#     def __str__(self):
+#         return self.name
         

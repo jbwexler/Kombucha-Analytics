@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('polls', '0001_initial'),
+        ('KA_app', '0001_initial'),
     ]
 
     operations = [
@@ -63,7 +63,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=200)),
-                ('parent', models.ManyToManyField(related_name='parent_rel_+', to='polls.Scoby')),
+                ('parent', models.ManyToManyField(related_name='parent_rel_+', to='KA_app.Scoby')),
             ],
             options={
             },
@@ -74,7 +74,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=200)),
-                ('type', models.ManyToManyField(related_name='teas', to='polls.Enum')),
+                ('type', models.ManyToManyField(related_name='teas', to='KA_app.Enum')),
             ],
             options={
             },
@@ -93,37 +93,37 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='container',
             name='shape',
-            field=models.ManyToManyField(related_name='containers', to='polls.Enum'),
+            field=models.ManyToManyField(related_name='containers', to='KA_app.Enum'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='brew',
             name='container',
-            field=models.ManyToManyField(related_name='brews', to='polls.Container'),
+            field=models.ManyToManyField(related_name='brews', to='KA_app.Container'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='brew',
             name='sugarType',
-            field=models.ManyToManyField(related_name='brews_sugar', to='polls.Enum'),
+            field=models.ManyToManyField(related_name='brews_sugar', to='KA_app.Enum'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='brew',
             name='teaType',
-            field=models.ManyToManyField(related_name='brews', to='polls.Tea'),
+            field=models.ManyToManyField(related_name='brews', to='KA_app.Tea'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='brew',
             name='waterType',
-            field=models.ManyToManyField(related_name='brews_water', to='polls.Enum'),
+            field=models.ManyToManyField(related_name='brews_water', to='KA_app.Enum'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='bottle',
             name='brew',
-            field=models.ManyToManyField(related_name='names', to='polls.Brew'),
+            field=models.ManyToManyField(related_name='names', to='KA_app.Brew'),
             preserve_default=True,
         ),
     ]

@@ -7,14 +7,14 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('polls', '0002_auto_20150312_0051'),
+        ('KA_app', '0002_auto_20150312_0051'),
     ]
 
     operations = [
         migrations.AlterField(
             model_name='bottle',
             name='brew',
-            field=models.ManyToManyField(related_name='names', null=True, to='polls.Brew', blank=True),
+            field=models.ManyToManyField(related_name='names', null=True, to='KA_app.Brew', blank=True),
             preserve_default=True,
         ),
         migrations.AlterField(
@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='brew',
             name='container',
-            field=models.ManyToManyField(related_name='brews', null=True, to='polls.Container', blank=True),
+            field=models.ManyToManyField(related_name='brews', null=True, to='KA_app.Container', blank=True),
             preserve_default=True,
         ),
         migrations.AlterField(
@@ -50,7 +50,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='brew',
             name='sugarType',
-            field=models.ManyToManyField(related_name='brews_sugar', null=True, to='polls.Enum', blank=True),
+            field=models.ManyToManyField(related_name='brews_sugar', null=True, to='KA_app.Enum', blank=True),
             preserve_default=True,
         ),
         migrations.AlterField(
@@ -62,13 +62,13 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='brew',
             name='teaType',
-            field=models.ManyToManyField(related_name='brews', null=True, to='polls.Tea', blank=True),
+            field=models.ManyToManyField(related_name='brews', null=True, to='KA_app.Tea', blank=True),
             preserve_default=True,
         ),
         migrations.AlterField(
             model_name='brew',
             name='waterType',
-            field=models.ManyToManyField(related_name='brews_water', null=True, to='polls.Enum', blank=True),
+            field=models.ManyToManyField(related_name='brews_water', null=True, to='KA_app.Enum', blank=True),
             preserve_default=True,
         ),
         migrations.AlterField(
@@ -80,7 +80,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='container',
             name='shape',
-            field=models.ManyToManyField(related_name='containers', null=True, to='polls.Enum', blank=True),
+            field=models.ManyToManyField(related_name='containers', null=True, to='KA_app.Enum', blank=True),
             preserve_default=True,
         ),
         migrations.AlterField(
@@ -92,13 +92,13 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='scoby',
             name='parent',
-            field=models.ManyToManyField(related_name='parent_rel_+', null=True, to='polls.Scoby', blank=True),
+            field=models.ManyToManyField(related_name='parent_rel_+', null=True, to='KA_app.Scoby', blank=True),
             preserve_default=True,
         ),
         migrations.AlterField(
             model_name='tea',
             name='type',
-            field=models.ManyToManyField(related_name='teas', null=True, to='polls.Enum', blank=True),
+            field=models.ManyToManyField(related_name='teas', null=True, to='KA_app.Enum', blank=True),
             preserve_default=True,
         ),
     ]

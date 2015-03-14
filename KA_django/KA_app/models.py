@@ -97,17 +97,23 @@ class Bottle(models.Model):
     ('beer', 'beer'),
     ("gt's", "gt's"),
     )
+    flavor_choices = (
+    ('ginger', 'ginger'),
+    ('lemon','lemon')
+    )
     
-    name = models.CharField(max_length=200, null=True, blank=True)
     brew = models.ManyToManyField(Brew, related_name='bottles', null=True, blank=True)
+    name = models.CharField(max_length=200, null=True, blank=True)
     startDate = models.DateField(null=True, blank=True)
     endDate = models.DateField(null=True, blank=True)
     bottleTime = models.IntegerField(null=True, blank=True)
-    volume = models.FloatField(null=True, blank=True)
-    type = models.CharField(max_length=200,choices=type_choices, null=True, blank=True)
-    joeRating = models.IntegerField(null=True, blank=True)
-    tyRating = models.IntegerField(null=True, blank=True)
-    avgRating = models.IntegerField(null=True, blank=True)
+    volume = models.FloatField(null=True, blank=True) #mL
+    bottleType = models.CharField(max_length=200,choices=type_choices, null=True, blank=True)
+    flavor = models.CharField(max_length=200,choices=flavor_choices, null=True, blank=True)
+    air = models.IntegerField(null=True, blank=True) #mm
+    joeRating = models.FloatField(null=True, blank=True) #1-10
+    tyRating = models.FloatField(null=True, blank=True) #1-10
+    avgRating = models.FloatField(null=True, blank=True) #1-10
     
     def data(self):
         #prints dictionary with field names as keys and data as values
@@ -123,7 +129,6 @@ class Bottle(models.Model):
             self.brewTime = (self.endDate - self.startDate).days
         if self.joeRating and self.tyRating:
             self.avgRating = (self.joeRating + self.tyRating)/2
-        
         super(Brew, self).save(*args, **kwargs)
 
 #     def __str__(self):

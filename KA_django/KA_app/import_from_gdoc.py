@@ -27,9 +27,40 @@ def updateBrews(wks):
                         brewObj.__dict__[brewFields[column]] = datetime.date(dateList[0],dateList[1],dateList[2])
                     else:
                         brewObj.__dict__[brewFields[column]] = value
+            if row[12] == 'mother':
+                try:
+                    for scobyObj in Brew.objects.get(pk=row[12]).scoby.all():
+                        brewObj.scoby.add(scobyObj)
+                except:
+                    print 'scoby with pk == %s does not exist' % row[12]
+            elif row[12] == 'daughter':
+                    scobyObj = Scoby.objects.create(dateCreated=brewObj.endDate)
+                    brewObj.scoby.add(scobyObj)
         brewObj.save()
         
 def updateBottles(wks):
+    manyToMany = [x.attname for x in Brew._meta.many_to_many]
+    bottleLists = wks.worksheet('Bottle').get_all_values()
+    bottleFields = [field for field in bottleLists[2]]
+    print len(bottleFields)
+    for row in bottleLists[3:]:
+        if row[1]:
+            try:
+                bottleObj = Bottle.objects.get(pk=row[0])
+            except:
+                bottleObj = Bottle.objects.create(pk=row[0])
+            for column, value in enumerate(row):
+                if value:
+                    if column == 1:
+                        brewObj = Brew.obj.get(pk=value)
+                        bottleObj.brew.add(brewObj)
+                    elif 'date' in brewFields[column].lower():
+                        dateList = [int(float(x)) for x in value.split('-')]
+                        brewObj.__dict__[brewFields[column]] = datetime.date(dateList[0],dateList[1],dateList[2])
+                    else:
+                        brewObj.__dict__[brewFields[column]] = value
+        brewObj.save()
+    
     
 
 def importFromGDoc():

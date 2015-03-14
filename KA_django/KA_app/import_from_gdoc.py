@@ -32,9 +32,12 @@ def updateBrews(wks):
                     for scobyObj in Brew.objects.get(pk=row[12]).scoby.all():
                         brewObj.scoby.add(scobyObj)
                 except:
-                    print 'scoby with pk == %s does not exist' % row[12]
+                    pass
             elif row[12] == 'daughter':
                     scobyObj = Scoby.objects.create(dateCreated=brewObj.endDate)
+                    for parent in Brew.objects.get(pk=row[12]).scoby.all():
+                        scobyObj.parents.add(parent)
+                    scobyObj.save()
                     brewObj.scoby.add(scobyObj)
         brewObj.save()
         

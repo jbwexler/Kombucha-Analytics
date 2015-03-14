@@ -6,14 +6,6 @@ class Scoby(models.Model):
     parent = models.ManyToManyField('self', null=True, blank=True)
     dateCreated = models.DateField(null=True, blank=True)
     
-    def save(self, *args, **kwargs):
-        if self.brew:
-            BrewObj = self.brew.all()[0]
-            self.startDate = BrewObj.endDate
-        if self.endDate and self.startDate:
-            self.brewTime = (self.endDate - self.startDate).days
-        
-        super(Brew, self).save(*args, **kwargs)
 #     def __str__(self):
 #         return self.name
         
@@ -122,7 +114,7 @@ class Bottle(models.Model):
         return fieldData
     
     def save(self, *args, **kwargs):
-        if self.brew:
+        if self.brews.all():
             BrewObj = self.brew.all()[0]
             self.startDate = BrewObj.endDate
         if self.endDate and self.startDate:

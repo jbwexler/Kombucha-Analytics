@@ -61,8 +61,12 @@ WSGI_APPLICATION = 'KA_django.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql', 
+        'NAME': 'sql370611',
+        'USER': 'sql370611',
+        'PASSWORD': 'cV8!mZ6!',
+        'HOST': 'sql3.freemysqlhosting.net',   # Or an IP Address that your DB is hosted on
+        'PORT': '3306',
     }
 }
 
@@ -84,3 +88,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+
+FIXTURE_DIRS = (
+   '/KA_django/KA_app/fixtures/',
+)

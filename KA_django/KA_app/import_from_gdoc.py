@@ -28,6 +28,9 @@ def updateBrews(wks):
                     else:
                         brewObj.__dict__[brewFields[column]] = value
         brewObj.save()
+        
+def updateBottles(wks):
+    
 
 def importFromGDoc():
     email = local.email
@@ -44,6 +47,7 @@ def importFromGDoc():
 #     teaLists = wks.worksheet('Tea').get_all_values()
 
     updateBrews(wks)
+    updateBottles(wks)
     
         
 importFromGDoc()

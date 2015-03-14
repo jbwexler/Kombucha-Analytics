@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.base import ModelBase
         
 class Scoby(models.Model):
     name = models.CharField(max_length=200, null=True, blank=True)
@@ -42,8 +43,8 @@ class Container(models.Model):
     name = models.CharField(max_length=200, null=True, blank=True)
     volume = models.FloatField(null=True, blank=True)
     shape = models.CharField(max_length=200,choices=shape_choices, null=True, blank=True)
-#     def __str__(self):
-#         return self.name
+    def __str__(self):
+        return self.name
         
 class Brew(models.Model):
     water_choices = (
@@ -76,9 +77,16 @@ class Brew(models.Model):
     scoby = models.ManyToManyField(Scoby, related_name='brews', null=True, blank=True)
     location = models.CharField(max_length=200,choices=location_choices, null=True, blank=True)
 
-#     def __date__(self):              
-#         return self.startDate
-        
+#     def __str__(self):              
+#         return self.waterType
+    def data(self):
+        #prints dictionary with field names as keys and data as values
+        fieldData = {field:getattr(self, field) for field in Brew._meta.get_all_field_names()}
+        fieldData['scoby'] = [x.dateCreated for x in fieldData['scoby'].all()]
+        fieldData['teaType'] = [x.name for x in fieldData['teaType'].all()]
+        fieldData['container'] = [x.name for x in fieldData['container'].all()]
+        return fieldData
+            
     def save(self, *args, **kwargs):
         if self.endDate and self.startDate:
             self.brewTime = (self.endDate - self.startDate).days
@@ -100,6 +108,12 @@ class Bottle(models.Model):
     joeRating = models.IntegerField(null=True, blank=True)
     tyRating = models.IntegerField(null=True, blank=True)
     avgRating = models.IntegerField(null=True, blank=True)
+    
+    def data(self):
+        #prints dictionary with field names as keys and data as values
+        fieldData = {field:getattr(self, field) for field in Bottle._meta.get_all_field_names()}
+        fieldData['brew'] = [x.dateCreated for x in fieldData['brew'].all()]
+        return fieldData
     
     def save(self, *args, **kwargs):
         if self.brew:

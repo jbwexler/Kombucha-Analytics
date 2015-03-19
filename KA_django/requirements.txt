@@ -1,0 +1,3 @@
+gspread
+django_extensions
+mysql-python

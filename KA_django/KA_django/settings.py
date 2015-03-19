@@ -38,7 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
-    'KA_app',
+    'KA_django.apps.KA_app',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -55,14 +55,14 @@ ROOT_URLCONF = 'KA_django.urls'
 
 WSGI_APPLICATION = 'KA_django.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.7/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'kombucha$default',
+    'USER': 'kombucha',
+    'PASSWORD':'gongfucha00',
+    'HOST':'mysql.server', 
+    'PORT':''
     }
 }
 
@@ -84,3 +84,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+
+FIXTURE_DIRS = (
+   '/KA_django/KA_app/fixtures/',
+)
+
+try:
+    from local_settings import *
+except ImportError:
+    pass

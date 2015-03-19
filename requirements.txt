@@ -1,2 +1,0 @@
-gspread
-django_extensions

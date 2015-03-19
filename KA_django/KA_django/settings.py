@@ -38,7 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
-    'KA_app',
+    'KA_django.apps.KA_app',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -58,15 +58,24 @@ WSGI_APPLICATION = 'KA_django.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
+# 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql', 
+#         'NAME': 'sql370611',
+#         'USER': 'sql370611',
+#         'PASSWORD': 'cV8!mZ6!',
+#         'HOST': 'sql3.freemysqlhosting.net',   # Or an IP Address that your DB is hosted on
+#         'PORT': '3306',
+#     }
+# }
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'sql370611',
-        'USER': 'sql370611',
-        'PASSWORD': 'cV8!mZ6!',
-        'HOST': 'sql3.freemysqlhosting.net',   # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'kombucha',
+    'USER': 'root',
+    'PASSWORD':'kombucha',
     }
 }
 
@@ -92,3 +101,8 @@ STATIC_URL = '/static/'
 FIXTURE_DIRS = (
    '/KA_django/KA_app/fixtures/',
 )
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
